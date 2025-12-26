@@ -1,6 +1,6 @@
 import { navLinks } from "../constants/index.js"
 
-export const Navbar = () => {
+export default function Navbar() {
   return (
     <header>
       <nav>
