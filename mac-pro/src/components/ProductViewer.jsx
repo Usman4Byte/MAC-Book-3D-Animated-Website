@@ -1,70 +1,60 @@
+import useMacbookStore from "../store";
 import clsx from "clsx";
-import useMacbookStore from "../store/index.js";
-import { Canvas } from "@react-three/fiber";
-import { Box, OrbitControls } from "@react-three/drei";
+import {Canvas} from "@react-three/fiber";
+import {Box, OrbitControls} from "@react-three/drei";
 import MacbookModel14 from "./models/Macbook-14.jsx";
-import StudioLight from "./three/StudioLight.jsx";
-import { useMediaQuery } from "react-responsive";
-import ModelSwitcher from "./three/ModelSwitcher.jsx";
 
-export default function ProductViewer() {
-  const { color, setColor, scale, setScale } = useMacbookStore();
+import StudioLights from "./three/StudioLight.jsx";
+import ModelSwitcher from './three/ModelSwitcher.jsx'
+import {useMediaQuery} from "react-responsive";
 
-  const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
+const ProductViewer = () => {
+    const { color, scale, setColor, setScale } = useMacbookStore();
 
-  const colorOptions = [
-    { value: '#adb5bd', label: 'Silver', swatchClass: 'bg-neutral-300' },
-    { value: '#2e2c2e', label: 'Space Black', swatchClass: 'bg-neutral-900' },
-  ];
+    const isMobile = useMediaQuery({ query: '(max-width: 1024px)'});
 
-  const sizeOptions = [
-    { value: 0.06, label: '14"' },
-    { value: 0.08, label: '16"' },
-  ];
+    return (
+        <section id="product-viewer">
+            <h2>Take a closer look.</h2>
 
-  const selectedColor = colorOptions.find((option) => option.value === color);
-  const selectedSize = sizeOptions.find((option) => option.value === scale);
+            <div className="controls">
+                {/*<p className="info">Macbook Pro | Available in 14" & 16" in Space Gray & Dark colors</p>*/}
 
-  return (
-    <section id="product-viewer">
-      <h2 className="text-center">Take a closer look.</h2>
+                <div className="flex-center gap-5 mt-5">
+                    <div className="color-control">
+                        <div
+                            onClick={() => setColor('#adb5bd')}
+                            className={clsx('bg-neutral-300', color === '#adb5bd' && 'active')}
+                        />
+                        <div
+                            onClick={() => setColor('#2e2c2e')}
+                            className={clsx('bg-neutral-900', color === '#2e2c2e' && 'active')}
+                        />
+                    </div>
 
-      <div className="controls">
-        <p className="info text-center">MacBook Pro {selectedSize?.label ?? '16"'} in {selectedColor?.label ?? 'Space Black'}</p>
+                    <div className="size-control">
+                        <div
+                            onClick={() => setScale(0.06)}
+                            className={clsx(scale === 0.06 ? 'bg-white text-black' : 'bg-transparent text-white')}
+                        >
+                            <p>14"</p>
+                        </div>
+                        <div
+                            onClick={() => setScale(0.08)}
+                            className={clsx(scale === 0.08 ? 'bg-white text-black' : 'bg-transparent text-white')}
+                        >
+                            <p>16"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div className="flex-center gap-5 mt-5">
+            <Canvas id="canvas" camera={{ position: [0, 2, 5], fov: 50, near: 0.1, far: 100}}>
+                <StudioLights />
 
-          <div className="color-control">
-            {colorOptions.map(({ value, swatchClass }) => (
-              <div
-                key={value}
-                onClick={() => { setColor(value); }}
-                className={clsx(swatchClass, color === value && 'active')}
-              />
-            ))}
-          </div>
-
-          <div className="size-control">
-            {sizeOptions.map(({ value, label }) => (
-              <div
-                key={value}
-                onClick={() => { setScale(value); }}
-                className={clsx(scale === value ? 'bg-white text-black' : 'bg-transparent')}
-              >
-                <p>{label}</p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-
-      </div>
-
-      <Canvas id="canvas" camera={{position : [0, 2, 5], fov: 50, near: 0.1, far: 1000}}>
-            <StudioLight />    
-            <ModelSwitcher scale={isMobile ? scale - 0.03 : scale} isMobile={isMobile} />
-      </Canvas>
-
-    </section>
-  )
+                <ModelSwitcher scale={isMobile ? scale - 0.03 : scale} isMobile={isMobile} />
+            </Canvas>
+        </section>
+    )
 }
+export default ProductViewer
