@@ -1,28 +1,29 @@
-import { navLinks } from "../constants/index.js"
+import {navLinks} from "../constants";
 
-export default function Navbar() {
-  return (
-    <header>
-      <nav>
-        <img src="/logo.svg" alt="Apple logo" />
+const NavBar = () => {
+    return (
+        <header>
+            <nav>
+                <img  src="/logo.svg" alt="Apple logo" />
 
-        <ul>
-          {navLinks.map(({ label }) => (
-            <li key={label}>
-              <a href={label}>{label}</a>
-            </li>
-          ))}
-        </ul>
+                <ul>
+                    {navLinks.map(({ label }) => (
+                        <li key={label}>
+                            <a href={label}>{label}</a>
+                        </li>
+                    ))}
+                </ul>
 
-        <div className="flex-center gap-3">
-          <button>
-            <img src="/search.svg" alt="Search" />
-          </button>
-          <button>
-            <img src="/cart.svg" alt="Cart" />
-          </button>
-        </div>
-      </nav>
-    </header>
-  )
+                <div className="flex-center gap-3">
+                    <button>
+                        <img src="/search.svg" alt="Search" />
+                    </button>
+                    <button>
+                        <img src="/cart.svg" alt="Cart" />
+                    </button>
+                </div>
+            </nav>
+        </header>
+    )
 }
+export default NavBar
