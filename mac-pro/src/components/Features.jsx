@@ -1,10 +1,10 @@
 import {Canvas} from "@react-three/fiber";
-import StudioLights from "./three/studiolight";
+import StudioLights from "./three/StudioLight";
 import {features, featureSequence} from "../constants";
 import clsx from "clsx";
 import {Suspense, useEffect, useRef} from "react";
 import {Html} from "@react-three/drei";
-import MacbookModel from "./models/macbook";
+import MacbookModel from "./models/Macbook";
 import {useMediaQuery} from "react-responsive";
 import useMacbookStore from "../store";
 import {useGSAP} from "@gsap/react";
